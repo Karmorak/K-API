@@ -168,10 +168,15 @@ public class Main {
 	 *  1.9.13 r49
 	 *  	- added ColortoFloat and FloattoColor Methods in GraphicFunktions
 	 *  	- (fixed) Scrolbar bug where it still be drawn when it should be not shown
+	 *  1.9.14 r50
+	 *  	- (fixed) an issue with the Button.setName methods and the Background
+	 *  	- (added) method to convert a colorFloat to a Stringname in GraphicFunktions
+	 *  	- (added) method in Scrolable.class isDragged
+	 *  	- the name of a scrolbar is now always in the middle
 	 */
 	
-	public static final String VERSION = "1.9.13";
-	public static final short RELEASE = 49;
+	public static final String VERSION = "1.9.14";
+	public static final short RELEASE = 50;
 	public static ApplicationType type;
 	
 	SpriteBatch batch;

@@ -317,26 +317,61 @@ public class GraphicFunktions extends GameFunktions {
 		Color c = new Color(0,0,0,0);
 		
 		if(f < 1f) {
-			c =  new Color(1f, f, 0, 1);
-			
+			//rot -> orange -> gelb
+			c =  new Color(1f, f, 0, 1);			
 		} else if (f >= 1 && f <= 2) {
-			c =  new Color(1-(f-1), 1f, 0, 1);
-			
+			//gelb - grün
+			c =  new Color(1-(f-1), 1f, 0, 1);			
 		} else if (f > 2 && f <= 3) {
-			c =  new Color(0f, 1f, (f-2f), 1);	
-			
+			//grün -> cyan
+			c =  new Color(0f, 1f, (f-2f), 1);				
 		} else if (f > 3 && f <= 4) {
-			c =  new Color(0f,1- (f-3f), 1f, 1);
-			
+			//cyan -> blau
+			c =  new Color(0f,1- (f-3f), 1f, 1);			
 		} else if (f > 4 && f <= 5) {
-			c =  new Color((f-4f), 0f, 1f, 1);	
-			
+			//blau -> pink
+			c =  new Color((f-4f), 0f, 1f, 1);			
 		} else if (f >= 5 && f <= 6) {
+			//pink -> rot
 			c =  new Color(1f, 0f, 1- (f-5f), 1);
 			
 		}
 		
 		return c;		
+	}
+	
+	
+	public static String getColorName(float colorvalue) {
+		float f = colorvalue * 6;
+		if(f <= 0) {
+			return "no";
+		} else if(f <= 0.5f) {
+			return "red";
+		} else if (f <= 1f) {
+			return "yellow";
+		} if(f <= 1.5f) {
+			return "yellow";
+		} else if (f <= 2f) {
+			return "green";
+		} if(f <= 2.5f) {
+			return "green";
+		} else if (f <= 3f) {
+			return "cyan";
+		} if(f <= 3.5f) {
+			return "cyan";
+		} else if (f <= 4f) {
+			return "blue";
+		} if(f <= 4.5f) {
+			return "blue";
+		} else if (f <= 5f) {
+			return "pink";
+		} if(f <= 5.5f) {
+			return "pink";
+		} else if (f <= 6f) {
+			return "red";
+		} else {
+			return "no";
+		}		
 	}
 	
 	
