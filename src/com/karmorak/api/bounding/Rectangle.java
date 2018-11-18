@@ -4,7 +4,6 @@ import com.karmorak.api.Vector2;
 
 public class Rectangle extends Colideable {		
 	
-	
 	public Rectangle(Vector2 pos, float width, float height) {
 		type = SHAPE_RECTANGLE;
 		

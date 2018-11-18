@@ -110,7 +110,13 @@ class Hang extends Button{
 	
 	@Override
 	public void draw(SpriteBatch batch) {
+		if(isSelected()) {
+			text.setColor(hoverColor);
+		}
 		text.draw(batch);
+		if(isSelected()) {
+			text.setColor(originColor);
+		}
 	}
 	
 	public boolean isSelected() {

@@ -1,5 +1,7 @@
 package com.karmorak.api.bounding;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.karmorak.api.Vector2;
 
@@ -23,7 +25,19 @@ public abstract class Colideable {
 	protected Vector2 COLbounds_min;
 	protected Vector2 COLbounds_max;	
 	protected boolean iscatched = true;
+	
+	public Pushable pushable;
 
+	class Pushable {
+		float push_strength;
+		float weight;
+		
+		public Pushable(float strength, float weight) {
+			this.push_strength = strength;
+			this.weight = weight;
+		}
+		
+	}
 	
 	
 	public void setMoveAll(boolean bool) {
@@ -101,6 +115,22 @@ public abstract class Colideable {
 		type = type_id;
 	}
 	
+	public Colideable(Vector2 pos, Vector2 boundsmin, Vector2 boundsmax, Vector2 bounds) {
+		this.pos = new Vector2(pos.getX(), pos.getY());
+		this.bounds = new Vector2(bounds.getWidth(), bounds.getHeight());
+		COLbounds_min = new Vector2(boundsmin.getX(), boundsmin.getY());
+		COLbounds_max = new Vector2(boundsmax.getWidth(), boundsmax.getHeight());
+		type = SHAPE_RECTANGLE;
+	}
+	
+	public Colideable(Vector2 pos, Vector2 boundsmin, Vector2 boundsmax, Vector2 bounds, short type_id) {
+		this.pos = new Vector2(pos.getX(), pos.getY());
+		this.bounds = new Vector2(bounds.getWidth(), bounds.getHeight());
+		COLbounds_min = new Vector2(boundsmin.getX(), boundsmin.getY());
+		COLbounds_max = new Vector2(boundsmax.getWidth(), boundsmax.getHeight());
+		type = type_id;
+	}
+	
 	
 	public Vector2 getPosition() {
 		return pos;
@@ -143,21 +173,21 @@ public abstract class Colideable {
 	public short getType() {
 		return type;
 	}
-	
-	
-	public void moveX(float value, Colideable[] cols) {
+		
+	public void moveX(float value, ArrayList<Colideable> cols) {
+		pos.setX(pos.getX() + value);
 		float a_minwidth = getMinCOLbounds().getWidth();
 		float a_minheight = getMinCOLbounds().getHeight();
 		float a_pos_x = getPosition().getX() + a_minwidth;
 		float a_pos_y = getPosition().getY() + a_minheight;			
-		float a_width = getMaxCOLbounds().getWidth();
-		
+		float a_width = getMaxCOLbounds().getWidth();		
 		for(Colideable c : cols) {			
 			if(c != null) {
 				float b_width = c.getMaxCOLbounds().getWidth();	
 				float b_pos_x = c.getPosition().getX();
 				
 				if(c.getType() == SHAPE_TRIANGLE) {
+					
 					if(value < 0) {
 						if(c.rotation == Triangle.FACING_NORTH_WEST) {
 							Colidings_Triangle_Rotation_0.colides_Left_Side_t(this, c, -4);
@@ -168,7 +198,7 @@ public abstract class Colideable {
 						} else if(c.rotation == Triangle.FACING_SOUTH_WEST) {
 							Colidings_Triangle_Rotation_3.colides_Left_Side_t(this, c, -4);
 						}
-					} else if (value  > 0) {
+					} else if (value  > 0) {						
 						if(c.rotation == Triangle.FACING_NORTH_WEST) {
 							Colidings_Triangle_Rotation_0.colides_Right_Side_t(this, c, 4);
 						} else if (c.rotation == Triangle.FACING_NORTH_EAST) {
@@ -180,13 +210,20 @@ public abstract class Colideable {
 						}
 					}
 				} else {
-					if(Colideable.intersects(this, c)) {
-						if(value < 0) {
-							a_pos_x = b_pos_x + b_width;	
-							setPosition(a_pos_x - a_minwidth, a_pos_y - a_minheight);
-						} else if (value  > 0) {							
-							a_pos_x = b_pos_x - a_width;
-							setPosition(a_pos_x - a_minwidth, a_pos_y - a_minheight);							
+					if(Colideable.intersects(this, c)) {						
+						if(c.Is_pushable()) {
+							if(value < 0) {
+								c.pushX(this, value);
+							} else {
+								c.pushX(this, value);
+							}							
+						} else {
+							if(value < 0) {
+								a_pos_x = b_pos_x + b_width;	
+								setPosition(a_pos_x - a_minwidth, a_pos_y - a_minheight);
+							} else if (value  > 0) {			
+								setPosition(c.getPosition().getX() - a_width + c.getMinCOLbounds().getX(), a_pos_y - a_minheight);							
+							}
 						}
 					}
 				}
@@ -194,7 +231,8 @@ public abstract class Colideable {
 		}
 	}
 	
-	public void moveY(float value, Colideable[] cols) {
+	public void moveY(float value, ArrayList<Colideable> cols) {
+		pos.setY(pos.getY()+ value);
 		float a_minheight = getMinCOLbounds().getHeight();
 		float a_pos_y = getPosition().getY() + a_minheight;
 		float a_height = getMaxCOLbounds().getHeight();
@@ -227,12 +265,21 @@ public abstract class Colideable {
 					}
 				} else {
 					if(Colideable.intersects(this, c)) {
-						if(value < 0) {
-							a_pos_y = b_pos_y + b_height;	
-							setPosition(getPosition().getX(), a_pos_y - a_minheight);
-						} else if (value  > 0) {
-							a_pos_y = b_pos_y - a_height;
-							setPosition(getPosition().getX(), a_pos_y - a_minheight);
+						if(c.Is_pushable()) {
+							
+							if(value < 0) {
+								c.pushY(this, value);
+							} else {
+								c.pushY(this, value);
+							}						
+						} else {
+							if(value < 0) {
+								a_pos_y = b_pos_y + b_height;	
+								setPosition(getPosition().getX(), a_pos_y - a_minheight);
+							} else if (value  > 0) {
+								a_pos_y = b_pos_y - a_height;
+								setPosition(getPosition().getX(), a_pos_y - a_minheight);
+							}
 						}
 					}
 				}
@@ -296,7 +343,7 @@ public abstract class Colideable {
 			}
 		} else if (a.type == SHAPE_RECTANGLE && b.type == SHAPE_TRIANGLE) {
 			if(b.rotation == Triangle.FACING_NORTH_WEST) {
-				Coldies_Triangle_NW.intersects_NW(a, b);
+				Colides_Triangle_NW.intersects_NW(a, b);
 			} else if(b.rotation == Triangle.FACING_NORTH_EAST) {
 				
 			} else if(b.rotation == Triangle.FACING_SOUTH_WEST) {
@@ -443,13 +490,28 @@ public abstract class Colideable {
 				
 				
 			}			
-		}
-			
-		
-		
+		}	
 		
 		
 		return false;
+	}
+	
+	public void pushX(Colideable pushing, float value){};
+	public void pushY(Colideable pushing, float value){};
+	
+	public boolean Is_pushable() {
+		if(pushable != null) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+
+	public void set_Pushable(float strength, float weight) {
+		if(pushable == null) {
+			this.pushable = new Pushable(strength, weight);
+		}
 	}
 	
 	

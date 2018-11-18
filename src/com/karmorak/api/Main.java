@@ -18,7 +18,7 @@ import com.karmorak.api.listeners.ConsoleOutputCapturer;
 public class Main {
 	
 //TODO
-	/*  
+	/*  FIX THE FUCKING FONT BUGS!!!!
 	 * 
 //CHANGELOG
 	 * 	1.5.1 r12
@@ -173,10 +173,27 @@ public class Main {
 	 *  	- (added) method to convert a colorFloat to a Stringname in GraphicFunktions
 	 *  	- (added) method in Scrolable.class isDragged
 	 *  	- the name of a scrolbar is now always in the middle
+	 *  1.9.15 r51
+	 *  	- (fixed) bug
+	 *  1.9.16 r52
+	 *  	- (fixes) triangle coliding
+	 *  1.9.17 r53
+	 *  	- (changed) moveX and moveY in Colideable now need ArrayList`s instead of Arrays
+	 *  1.10.0 pre1 r54 (November 18)
+	 *  	- improved triangle colidings(K-API) more exact colliding but less lagy
+	 *  	- added pushable option in colideable
+	 *  	- added a scale and a textscale option for Scrolable
+	 *  	- hangs can now hover again
+	 *  	- added the texture loader system in com.karmorak.api.texture
+	 *  	- added € char to font
+	 *  	- fixed Q and q in font
+	 *  	- , is now a little bit more down in font
+	 *  	- GestureWrapper now doesn`t need a return of a boolean anymore
+	 *  
 	 */
-	
-	public static final String VERSION = "1.9.14";
-	public static final short RELEASE = 50;
+
+	public static final String VERSION = "1.10.0 pre1";
+	public static final short RELEASE = 54;
 	public static ApplicationType type;
 	
 	SpriteBatch batch;

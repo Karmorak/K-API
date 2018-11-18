@@ -254,7 +254,6 @@ public class Button implements Comparable<Button>{
 	
 	public void dispose() {
 		pos = null;
-		font.dispose();
 		font = null;
 		ID = 0;
 		removeButton(this);
@@ -370,15 +369,18 @@ public class Button implements Comparable<Button>{
 	
 	public Button setName(String name) {
 		text.setName(name);
+		if(background != null) background.bounds();
 		return this;
 	}	
 	public Button setName(String[] name) {
 		text.setName(name);
+		if(background != null) background.bounds();
 		return this;
 	}	
 	
 	public Button setName(int index, String name) {
 		text.setName(index, name);
+		if(background != null) background.bounds();
 		return this;
 	}	
 	
@@ -783,7 +785,7 @@ public class Button implements Comparable<Button>{
 		}
 	}
 	
-	private static int dragg_button = -1;
+	protected static int dragg_button = -1;
 
 	public static boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
@@ -839,97 +841,11 @@ public class Button implements Comparable<Button>{
 		return false;
 	}
 	
-	private static float lastX;
-	private static float lastY;
+	protected static float lastX;
+	protected static float lastY;
 	
 	public static boolean touchDragged(int screenX, int screenY, int pointer) {
-		float speed_x = Math.abs((lastX - screenX));
-		float speed_y = Math.abs((lastY - screenY));		
-		if(dragg_button >= 0) {			
-			Scrolable c = (Scrolable) getButton(dragg_button);
-			if(c.IS_VERTICAL) {				
-				if(lastY > screenY) {
-					if(screenY < c.getSliderPos().getY() + c.getSliderHeight())
-						if(c.getSliderPos().getY() > c.getBGPos().getY())
-							c.getSliderPos().setY(c.getSliderPos().getY() - speed_y);	
-				} else {
-					if(screenY > c.getSliderPos().getY())
-						if(c.getSliderPos().getY() +c.getSliderHeight() <= c.getBGPos().getY() + c.getBGheight())
-							c.getSliderPos().setY(c.getSliderPos().getY() + speed_y);	
-				}	
-				
-				if(c.getSliderPos().getY() < c.getBGPos().getY()) { 
-					c.getSliderPos().setY(c.getBGPos().getY());
-				} else if(c.getSliderPos().getY() + c.getSliderHeight() > c.getBGPos().getY() + c.getBGheight()) {
-					c.getSliderPos().setY(c.getBGPos().getY() + c.getBGheight() - c.getSliderHeight());
-				}
-				
-				float var1 = (c.getSliderPos().getY() - c.getBGPos().getY()) / (c.getBGheight() - c.getSliderHeight());			
-				float var2 = (int) (var1 * 100);
-				if(var2 < 0) var2 = 0f;
-				
-				c.setValue(var2*0.01f);
-				
-				if(!c.dontchangeName) {
-					int var3 = (int) var2;			
-					String name = "" + var3;
-					
-					if(name.length() == 1) {
-						name = "0.0" + name;
-					}else if(name.length() == 2) {
-						name = "0." + name;
-					} else if(name.length() == 3){
-						String[] name2 = name.split("", 2);
-						name = name2[0] + "." + name2[1];
-					}
-					c.setName(name);
-				}	
-				lastY = screenY;
-			} else {
-				if(lastX > screenX) {
-					if(screenX < c.getSliderPos().getX() + c.getSliderWidth())
-						if(c.getSliderPos().getX() > c.getBGPos().getX())
-							c.getSliderPos().setX(c.getSliderPos().getX() - speed_x);	
-				} else {
-					if(screenX > c.getSliderPos().getX())
-						if(c.getSliderPos().getX() + c.getSliderWidth() <= c.getBGPos().getX() + c.getBGwidth())
-							c.getSliderPos().setX(c.getSliderPos().getX() + speed_x);	
-				}
-				
-				if(c.getSliderPos().getX() + c.getSliderWidth() < c.getBGPos().getX()) { 
-					c.getSliderPos().setX(c.getBGPos().getX());
-				} else if(c.getSliderPos().getX() + c.getSliderWidth() > c.getBGPos().getX() + c.getBGwidth()) {
-					c.getSliderPos().setX(c.getBGPos().getX() + c.getBGwidth() - c.getSliderWidth());
-				}
-				
-				
-				float var1 = (c.getSliderPos().getX() - c.getBGPos().getX() + (c.getSliderWidth() * 0.5f)) / (c.getBGwidth() - (c.getSliderWidth()));			
-				float var2 = (int) ((var1 * 100)-(2*(240/c.getBGwidth())));
-				if(var2 < 0) var2 = 0f;
-				
-				c.setValue(var2*0.01f);
-				
-				if(!c.dontchangeName) {
-					int var3 = (int) var2;			
-					String name = "" + var3;
-					
-					if(name.length() == 1) {
-						name = "0.0" + name;
-					}else if(name.length() == 2) {
-						name = "0." + name;
-					} else if(name.length() == 3){
-						String[] name2 = name.split("", 2);
-						name = name2[0] + "." + name2[1];
-					}
-					c.setName(name);
-				}	
-				lastX = screenX;
-			}
-			
-	
-		}
-		
-		return false;
+		return Scrolable.touchDragged(screenX, screenY);
 	}
 	
 	public static boolean touchUp(int screenX, int screenY, int pointer, int button) {

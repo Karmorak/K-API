@@ -10,8 +10,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
-import com.badlogic.gdx.math.Vector2;
 import com.karmorak.api.Main;
+import com.karmorak.api.Vector2;
 import com.karmorak.api.button.Button;
 
 public class GestureWrapper implements GestureListener, InputProcessor  {
@@ -243,8 +243,8 @@ public class GestureWrapper implements GestureListener, InputProcessor  {
 		return false;
 	}
 	@Override
-	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
-		execute("pinch", new Class[] {Vector2.class, Vector2.class, Vector2.class, Vector2.class}, new Object[]  {initialPointer1, initialPointer2, pointer1, pointer2});		
+	public boolean pinch(com.badlogic.gdx.math.Vector2 initialPointer1, com.badlogic.gdx.math.Vector2 initialPointer2, com.badlogic.gdx.math.Vector2 pointer1, com.badlogic.gdx.math.Vector2 pointer2) {		
+		execute("pinch", new Class[] {com.karmorak.api.Vector2.class, Vector2.class, Vector2.class, Vector2.class}, new Object[]  {new Vector2(initialPointer1.x, initialPointer1.y), new Vector2(initialPointer2.x, initialPointer2.y), new Vector2(pointer1.x, pointer1.y), new Vector2(pointer2.x, pointer2.y)});		
 		return false;
 	}
 	@Override

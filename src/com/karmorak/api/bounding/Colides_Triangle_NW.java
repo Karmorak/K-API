@@ -1,6 +1,6 @@
 package com.karmorak.api.bounding;
 
-class Coldies_Triangle_NW {
+class Colides_Triangle_NW {
 	
 	
 	static float calc_X(float a_pos_y, float a_width, float b_pos_y, float b_height, float b_pos_x, float b_width) {

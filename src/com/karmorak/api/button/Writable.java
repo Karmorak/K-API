@@ -24,7 +24,7 @@ class Writable extends Hang {
 		for(int i = 0; i < max_chars; i++) {
 			name_c = name_c + "_";
 			
-			if(text.getWordBounds(name_c).getX() >= text.getMaxWidth()) {
+			if(text.getWordBounds(name_c).getX() >= text.getMaxWidth() && text.getMaxWidth() > 0) {
 				names.add(name_c + " -");
 				name_c = "";
 			}		
