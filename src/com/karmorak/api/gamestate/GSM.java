@@ -130,9 +130,9 @@ public class GSM {
 		return currentstate;	
 	}
 	
-	public static short keyDown(int c) {
+	public static short touchUp(float screenX, float screenY, int pointer, int button) {
 		if(states.size() > 0)
-			states.get(currentstate).keyDown(c);
+			states.get(currentstate).touchUp(screenX, screenY, pointer, button);
 		return currentstate;	
 	}
 	
@@ -149,6 +149,19 @@ public class GSM {
 	public static short scrolled(int amount) {
 		if(states.size() > 0)
 			states.get(currentstate).scrolled(amount);
+		return currentstate;	
+	}
+	
+
+	public static short keyDown(int c) {
+		if(states.size() > 0)
+			states.get(currentstate).keyDown(c);
+		return currentstate;	
+	}	
+	
+	public static short keyTyped(char character) {
+		if(states.size() > 0)
+			states.get(currentstate).keyTyped(character);
 		return currentstate;	
 	}
 	

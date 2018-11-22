@@ -18,6 +18,7 @@ class Writable extends Hang {
 		this.text = h.text;
 		this.font = h.font;
 		
+		
 		ArrayList<String> names = new ArrayList<>();
 		
 		String name_c = "";
@@ -41,6 +42,7 @@ class Writable extends Hang {
 		
 		setName(names2);	
 		setoldName(names2);
+		setColor(h.getColor());
 		
 		Vector2 bound = text.getWordBounds("I" + names2[0]);
 		

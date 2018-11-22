@@ -19,6 +19,10 @@ public interface GameState {
 	}
 	public default void keyDown(int c) {
 	}
+	public default void keyTyped(char c) {
+	}	
+	public default void touchUp(float x, float y, int count, int button) {
+	}
 	public default void touchDragged(int screenX, int screenY, int pointer) {
 	}
 	public default void mouseMoved(int screenX, int screenY) {
@@ -27,6 +31,8 @@ public interface GameState {
 	}
 	public default void tap(float x, float y, int count, int button) {
 	}
+
+
 	
 
 

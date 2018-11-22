@@ -17,10 +17,11 @@ class Hang extends Button{
 		
 		this.font = font;
 		this.setName(name);
+		setColor(getButton(id).getColor());
 		
 		old_name = getNames();
 		
-		this.setPosition(50, Gdx.graphics.getHeight()-50);	
+		this.setPosition(getButton(id).getwidth(), 0);	
 		
 		father = id;
 		

@@ -189,11 +189,23 @@ public class Main {
 	 *  	- fixed Q and q in font
 	 *  	- , is now a little bit more down in font
 	 *  	- GestureWrapper now doesn`t need a return of a boolean anymore
-	 *  
+	 *  1.10 pre2 r55 
+	 *  	- Vector2 now dont need x and y when creating it(new constructor) the default is then x=0;y=0;
+	 *      - added touchUp and keyTyped in GameState
+	 *      - <<<<Button Class>>>
+	 *      	- added getX; getY; getRight; getTop, setX, setY methods to easier manage positions
+	 *      	- added static Button.initFont to init the font 
+	 *      	- added static setDefFontScale to set the local size of buttons before creating one(use initFont() before)
+	 *      	- added static getDefFontScale
+	 *      	- added new Constructor (String name, Color, float scale) & (String name, Color, float scale)
+	 *      	- added static addFontCacheColorDef
+	 *      	- added fixed a hang and writeable issue
+	 *      	- added sethangright(int hang,float xabs)
+	 *  	- 
 	 */
 
-	public static final String VERSION = "1.10.0 pre1";
-	public static final short RELEASE = 54;
+	public static final String VERSION = "1.10.0 pre2";
+	public static final short RELEASE = 55;
 	public static ApplicationType type;
 	
 	SpriteBatch batch;

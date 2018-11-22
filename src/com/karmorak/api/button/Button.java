@@ -1,4 +1,4 @@
-//v 1.4-build5
+//v 1.4.1
 package com.karmorak.api.button;
 
 
@@ -118,7 +118,7 @@ public class Button implements Comparable<Button>{
 		
 	}
 	
-	private void init(OwnFont font, String[] name) {
+	public static void initFont() {
 		if(!first_init) {
 			list = new ArrayList<>();
 			list2 = new ArrayList<>();
@@ -143,7 +143,12 @@ public class Button implements Comparable<Button>{
 			list2.add(all);
 			
 			first_init = true;
-		}		
+		}
+	}
+	
+	
+	private void init(OwnFont font, String[] name) {
+		initFont();		
 		
 //		scale = 1f;		
 		hoverColor = Color.RED;
@@ -187,6 +192,13 @@ public class Button implements Comparable<Button>{
 		this.pos = new Vector2(0, Gdx.graphics.getHeight() - getheight());	
 	}
 	
+	public Button (String name, Color c, float scale) {		
+		init(def_font, new String[]{name});
+		setScale(scale);
+		this.pos = new Vector2(0, Gdx.graphics.getHeight() - getheight());			
+		setColor(c);
+	}
+	
 	public Button (OwnFont font, String name) {
 		init(font, new String[]{name});
 		this.pos = new Vector2(0, Gdx.graphics.getHeight() - getheight());	
@@ -213,6 +225,13 @@ public class Button implements Comparable<Button>{
 	public Button (String[] name) {		
 		init(def_font, name);
 		this.pos = new Vector2(0, Gdx.graphics.getHeight() - getheight());	
+	}
+	
+	public Button (String name[], Color c, float scale) {		
+		init(def_font, name);
+		setScale(scale);
+		this.pos = new Vector2(0, Gdx.graphics.getHeight() - getheight());	
+		setColor(c);
 	}
 	
 	public Button (OwnFont font, String[] name) {
@@ -340,6 +359,30 @@ public class Button implements Comparable<Button>{
 		return hangs.get(hang).getPosition();		
 	}
 	
+	public void setX(float x) {
+		setPosition(x, getY());
+	}
+	
+	public void setY(float y) {
+		setPosition(getX(), y);
+	}
+	
+	public float getX() {
+		return getPosition().getX();
+	}
+	
+	public float getY() {
+		return getPosition().getY();
+	}
+	
+	public float getRight() {
+		return getX() + getwidth();
+	}
+	
+	public float getTop() {
+		return getY() + getheight();
+	}
+	
 	
 	public Button setHangLeft(int i) {
 		Hang b = hangs.get(i);
@@ -353,8 +396,18 @@ public class Button implements Comparable<Button>{
 		return this;
 	}
 	
+	public Button setHangRight(int i, float abs) {
+		Hang b = hangs.get(i);
+		b.setPosition(getwidth() + abs, 0);	
+		return this;
+	}
+	
 	public void addFontCacheColor(Color c, boolean thick) {
 		this.font.addCacheColor(c, thick);
+	}
+	
+	public static void addFontCacheColorDef(Color c, boolean thick) {
+		def_font.addCacheColor(c, thick);
 	}
 	
 	public Button setMiddle() {
@@ -407,6 +460,7 @@ public class Button implements Comparable<Button>{
 	public Button setColor(int i, Color color) {
 		hangs.get(i).setColor(color);
 		originColor = color;
+		hangs.get(i).originColor = color;
 		return this;
 	}
 //	public Button setColor(Color color, boolean changeorigin) {
@@ -570,6 +624,14 @@ public class Button implements Comparable<Button>{
 	public float getFontScale() {
 		return font.getScale();
 	}
+	
+	public static void setDefFontScale(float scale) {
+		def_font.setScale(scale);
+	}
+	public float getDefFontScale() {
+		return def_font.getScale();
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	private static void removeButton(Button b) {

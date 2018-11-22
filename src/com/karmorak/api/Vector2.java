@@ -6,6 +6,12 @@ public class Vector2 {
 	protected float pos_x;
 	protected float pos_y;
 	
+	
+	public Vector2() {
+		pos_x = 0;
+		pos_y = 0;
+	}
+	
 	public Vector2(float x, float y) {
 		pos_x = x;
 		pos_y = y;
